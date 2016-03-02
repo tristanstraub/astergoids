@@ -1,0 +1,4 @@
+package core
+
+func Init() {
+}

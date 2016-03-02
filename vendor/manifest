@@ -1,0 +1,33 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/veandco/go-sdl2/sdl",
+			"repository": "https://github.com/veandco/go-sdl2",
+			"revision": "a8fc14d68096cfbb00cfe247cf947ef4ea4407d0",
+			"branch": "master",
+			"path": "/sdl"
+		},
+		{
+			"importpath": "github.com/veandco/go-sdl2/sdl_image",
+			"repository": "https://github.com/veandco/go-sdl2",
+			"revision": "a8fc14d68096cfbb00cfe247cf947ef4ea4407d0",
+			"branch": "master",
+			"path": "/sdl_image"
+		},
+		{
+			"importpath": "github.com/veandco/go-sdl2/sdl_mixer",
+			"repository": "https://github.com/veandco/go-sdl2",
+			"revision": "a8fc14d68096cfbb00cfe247cf947ef4ea4407d0",
+			"branch": "master",
+			"path": "/sdl_mixer"
+		},
+		{
+			"importpath": "github.com/veandco/go-sdl2/sdl_ttf",
+			"repository": "https://github.com/veandco/go-sdl2",
+			"revision": "a8fc14d68096cfbb00cfe247cf947ef4ea4407d0",
+			"branch": "master",
+			"path": "/sdl_ttf"
+		}
+	]
+}
