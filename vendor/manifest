@@ -2,6 +2,34 @@
 	"version": 0,
 	"dependencies": [
 		{
+			"importpath": "github.com/davecgh/go-spew/spew",
+			"repository": "https://github.com/davecgh/go-spew",
+			"revision": "5215b55f46b2b919f50a1df0eaa5886afe4e3b3d",
+			"branch": "master",
+			"path": "/spew"
+		},
+		{
+			"importpath": "github.com/go-gl/mathgl/mgl32",
+			"repository": "https://github.com/go-gl/mathgl",
+			"revision": "667e7964455c5d0db23927d59cfd72852686e419",
+			"branch": "master",
+			"path": "/mgl32"
+		},
+		{
+			"importpath": "github.com/pmezard/go-difflib/difflib",
+			"repository": "https://github.com/pmezard/go-difflib",
+			"revision": "792786c7400a136282c1664665ae0a8db921c6c2",
+			"branch": "master",
+			"path": "/difflib"
+		},
+		{
+			"importpath": "github.com/stretchr/testify/assert",
+			"repository": "https://github.com/stretchr/testify",
+			"revision": "1f4a1643a57e798696635ea4c126e9127adb7d3c",
+			"branch": "master",
+			"path": "/assert"
+		},
+		{
 			"importpath": "github.com/veandco/go-sdl2/sdl",
 			"repository": "https://github.com/veandco/go-sdl2",
 			"revision": "a8fc14d68096cfbb00cfe247cf947ef4ea4407d0",
@@ -28,6 +56,13 @@
 			"revision": "a8fc14d68096cfbb00cfe247cf947ef4ea4407d0",
 			"branch": "master",
 			"path": "/sdl_ttf"
+		},
+		{
+			"importpath": "golang.org/x/image/math/f32",
+			"repository": "https://go.googlesource.com/image",
+			"revision": "7c492694a6443a92fd349fda0c4c7b587040f161",
+			"branch": "master",
+			"path": "/math/f32"
 		}
 	]
 }
