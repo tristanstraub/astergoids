@@ -19,36 +19,26 @@ const (
 )
 
 type WorldObject struct {
-	ObjectType int
+	ObjectType ObjectType
 	// position
-	X *vec.VecN
+	X vec.Vec4
 	// angular rotation
-	R *vec.VecN
+	R vec.Vec4
 	// angular velocity (always points outwards)
-	W *vec.VecN
+	W vec.Vec4
 	// velocity
-	V *vec.VecN
+	V vec.Vec4
 }
 
 type World struct {
 	Objects []*WorldObject
 }
 
-func Vec() *vec.VecN {
-	// TODO change to vec.Vec2()
-	return vec.NewVecNFromData([]float32{0, 0, 0})
+func Vec() vec.Vec4 {
+	return vec.Vec4{0, 0, 0, 1}
 }
 
-func VecFromData(data []float32) *vec.VecN {
-	// TODO change to vec.Vec2()
-	return vec.NewVecNFromData(data)
-}
-
-func cloneVec(v *vec.VecN) *vec.VecN {
-	return vec.NewVecNFromData(v.Raw())
-}
-
-func NewWorldObject(otype int) *WorldObject {
+func NewWorldObject(otype ObjectType) *WorldObject {
 	return &WorldObject{ObjectType: otype, X: Vec(), R: Vec(), W: Vec(), V: Vec()}
 }
 
@@ -57,18 +47,20 @@ func AppendWorldObject(world *World, obj *WorldObject) {
 }
 
 func clone(obj *WorldObject) *WorldObject {
-	return &WorldObject{ObjectType: obj.ObjectType, X: cloneVec(obj.X), R: cloneVec(obj.R), W: cloneVec(obj.W), V: cloneVec(obj.V)}
+	return &WorldObject{ObjectType: obj.ObjectType, X: obj.X, R: obj.R, W: obj.W, V: obj.V}
 }
 
-func moveWorldObject(obj *WorldObject, delta float32, acceleration *vec.VecN, angularAcceleration *vec.VecN) *WorldObject {
+func moveWorldObject(obj *WorldObject, delta float32, acceleration vec.Vec4, angularAcceleration vec.Vec4) *WorldObject {
 	out := clone(obj)
-	impulse := Vec()
-	obj.V.Mul(impulse, float32(delta))
-	obj.X.Add(out.X, impulse)
 
-	angularImpulse := Vec()
-	obj.W.Mul(angularImpulse, float32(delta))
-	obj.R.Add(out.R, angularImpulse)
+	v := obj.V.Mul(delta)
+	w := obj.W.Mul(delta)
+
+	mv := vec.Translate3D(v[0], v[1], v[2])
+	mw := vec.Translate3D(w[0], w[1], w[2])
+
+	out.X = mv.Mul4x1(obj.X)
+	out.R = mw.Mul4x1(obj.R)
 
 	return out
 }
@@ -109,8 +101,8 @@ func UpdateWorld(W *World, delta float32, interactions []Interaction) *World {
 	//groupedInteractions := groupInteractionsByType(interactions)
 
 	for _, obj := range W.Objects {
-		acceleration := VecFromData([]float32{0, 0, 0})
-		angularAcceleration := VecFromData([]float32{0, 0, 0})
+		acceleration := Vec()
+		angularAcceleration := Vec()
 		out.Objects = append(out.Objects, moveWorldObject(obj, delta, acceleration, angularAcceleration))
 	}
 

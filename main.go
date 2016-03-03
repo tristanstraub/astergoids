@@ -1,7 +1,13 @@
 package main
 
-import render "allthethings/astergoids/render"
+import (
+	"allthethings/astergoids/render"
+	"allthethings/astergoids/world"
+)
 
 func main() {
-	render.Run()
+	game := render.NewGame()
+	world.AppendWorldObject(game.World, world.NewWorldObject(world.ASTEROID))
+
+	render.Run(game)
 }
