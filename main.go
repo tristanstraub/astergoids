@@ -1,7 +1,7 @@
 package main
 
-import core "allthethings/astergoids/core"
+import render "allthethings/astergoids/render"
 
 func main() {
-	core.Init()
+	render.Run()
 }
