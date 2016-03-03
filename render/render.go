@@ -27,10 +27,10 @@ func Run(game *Game) {
 
 	renderer, _ := sdl.CreateRenderer(window, -1, 0)
 
-	lastTicks := sdl.GetTicks()
+	lastTicks := sdl.GetTicks() / 1000
 
 	for !game.Quit {
-		ticks := sdl.GetTicks()
+		ticks := sdl.GetTicks() / 1000
 		delta := lastTicks - ticks
 		lastTicks = ticks
 
@@ -71,34 +71,29 @@ func events(game *Game) {
 	}
 }
 
-func transform4x1(v *vec.VecN, m vec.Mat4) *vec.VecN {
-	return v
-}
-
 func renderAsteroid(viewMatrix vec.Mat4, renderer *sdl.Renderer, object *world.WorldObject) {
-	asteroid := []*vec.VecN{
-		vec.NewVecNFromData([]float32{-10, 0, 0, 1}),
-		vec.NewVecNFromData([]float32{0, -10, 0, 1}),
-		vec.NewVecNFromData([]float32{0, 10, 0, 1}),
+	asteroid := []vec.Vec4{
+		vec.Vec4{-100, 0, 0, 1},
+		vec.Vec4{0, 100, 0, 1},
+		vec.Vec4{100, 0, 0, 1},
 	}
 
-	for _, v := range asteroid {
-		transform4x1(v, viewMatrix)
+	transformed := make([]vec.Vec4, len(asteroid))
+
+	for i, v := range asteroid {
+		transformed[i] = viewMatrix.Mul4x1(v)
 	}
 
-	// renderer.SetDrawColor(0, 255, 0, 255)
-	// v0 := asteroid[0]
-	// for i, v1 := asteroid[1:] {
-	// 	v0r = v0.Raw()
-	// 	v1r = v1.Raw()
-	// 	renderer.DrawLine(v0r[0], v0r[1], v1r[0], v1r[1])
-	// }
+	renderer.SetDrawColor(0, 255, 0, 255)
+	v0 := transformed[0]
+	for _, v1 := range transformed[1:] {
+		renderer.DrawLine(int(v0[0]), int(v0[1]), int(v1[0]), int(v1[1]))
+	}
 
-	// v0r := asteroid[0].Raw()
-	// vnr := asteroid[len(asteroid)-1].Raw()
+	v0 = asteroid[0]
+	vn := asteroid[len(asteroid)-1]
 
-	// renderer.DrawLine(vnr[0], vnr[1], v0r[0], v0r[1])
-
+	renderer.DrawLine(int(vn[0]), int(vn[1]), int(v0[0]), int(v0[1]))
 }
 
 func renderShip(viewMatrix vec.Mat4, renderer *sdl.Renderer, object *world.WorldObject) {

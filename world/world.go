@@ -1,6 +1,7 @@
 package world
 
 import (
+	"fmt"
 	vec "github.com/go-gl/mathgl/mgl32"
 )
 
@@ -59,8 +60,10 @@ func moveWorldObject(obj *WorldObject, delta float32, acceleration vec.Vec4, ang
 	mv := vec.Translate3D(v[0], v[1], v[2])
 	mw := vec.Translate3D(w[0], w[1], w[2])
 
-	out.X = mv.Mul4x1(obj.X)
-	out.R = mw.Mul4x1(obj.R)
+	out.X = vec.TransformCoordinate(obj.X.Vec3(), mv).Vec4(1)
+	out.R = vec.TransformCoordinate(obj.R.Vec3(), mw).Vec4(1)
+
+	fmt.Println(obj.X, obj.V, delta, out.X)
 
 	return out
 }
@@ -101,9 +104,9 @@ func UpdateWorld(W *World, delta float32, interactions []Interaction) *World {
 	//groupedInteractions := groupInteractionsByType(interactions)
 
 	for _, obj := range W.Objects {
-		acceleration := Vec()
+		acceleration := vec.Vec4{0, 0, 0, 1}
 		angularAcceleration := Vec()
-		out.Objects = append(out.Objects, moveWorldObject(obj, delta, acceleration, angularAcceleration))
+		out.Objects = append(out.Objects, moveWorldObject(obj, 100, acceleration, angularAcceleration))
 	}
 
 	return &out
